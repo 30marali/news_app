@@ -4,10 +4,9 @@ import 'package:news_app/category_item.dart';
 import 'package:news_app/category_model.dart';
 
 class CategoryTab extends StatelessWidget {
-//  Function onClick;
+  Function onClick;
 
-
-  CategoryTab({super.key});
+  CategoryTab({required this.onClick, super.key});
 
   List<CategoryModel> allCategories = CategoryModel.getCategories();
 
@@ -22,12 +21,12 @@ class CategoryTab extends StatelessWidget {
             height: 15,
           ),
           Text(
-            textAlign: TextAlign.start ,
+            textAlign: TextAlign.start,
             "Pick your category\nof interest",
-            style: TextStyle(fontSize: 30,
-            fontWeight: FontWeight.bold,
-              color: Color(0xff4F5A69)
-            ),
+            style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: Color(0xff4F5A69)),
           ),
           SizedBox(
             height: 15,
@@ -35,9 +34,15 @@ class CategoryTab extends StatelessWidget {
           Expanded(
             child: GridView.builder(
               itemBuilder: (context, index) {
-                return CategoryItem(
-                  model: allCategories[index],
-                  isOdd: index.isOdd,
+                return InkWell(
+                  onTap: () {
+                    onClick(allCategories[index]);
+                  },
+
+                  child: CategoryItem(
+                    model: allCategories[index],
+                    isOdd: index.isOdd,
+                  ),
                 );
               },
               itemCount: allCategories.length,

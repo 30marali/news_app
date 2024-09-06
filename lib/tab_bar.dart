@@ -4,7 +4,9 @@ import 'package:news_app/news_item.dart';
 import 'package:news_app/tab_item.dart';
 
 class TabBarWidget extends StatefulWidget {
-  const TabBarWidget({super.key});
+  String id;
+
+  TabBarWidget({required this.id, super.key});
 
   @override
   State<TabBarWidget> createState() => _TabBarWidgetState();
@@ -12,10 +14,11 @@ class TabBarWidget extends StatefulWidget {
 
 class _TabBarWidgetState extends State<TabBarWidget> {
   int selectedTabIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: ApiManager.getSources(),
+      future: ApiManager.getSources(widget.id),
       builder: (context, snapchot) {
         if (snapchot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
@@ -41,16 +44,17 @@ class _TabBarWidgetState extends State<TabBarWidget> {
                       },
                       tabs: sources
                           .map((e) => TabItem(
-                        source: e,
-                        isSelected:
-                        sources.elementAt(selectedTabIndex) == e,
-                      ))
+                                source: e,
+                                isSelected:
+                                    sources.elementAt(selectedTabIndex) == e,
+                              ))
                           .toList())),
               SizedBox(
                 height: 5,
               ),
               FutureBuilder(
-                  future: ApiManager.getNewsData(sources[selectedTabIndex].id ?? ""),
+                  future: ApiManager.getNewsData(
+                      sources[selectedTabIndex].id ?? ""),
                   builder: (context, snapchot) {
                     if (snapchot.connectionState == ConnectionState.waiting) {
                       return Center(child: CircularProgressIndicator());

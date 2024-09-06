@@ -7,11 +7,14 @@ import 'package:news_app/SourceResponse.dart';
 class ApiManager {
 // https://newsapi.org/v2/top-headlines/sources?apiKey=2a52d78427824a4586540a19607ab271
 
-  static Future<SourceResponse> getSources() async {
+  static Future<SourceResponse> getSources(String id) async {
     Uri url = Uri.https(
       "newsapi.org",
       "/v2/top-headlines/sources",
-      {"apiKey": "2a52d78427824a4586540a19607ab271"},
+      {
+        "apiKey": "2a52d78427824a4586540a19607ab271",
+        "category": id,
+      },
     );
 
     http.Response response = await http.get(url);

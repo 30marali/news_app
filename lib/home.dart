@@ -1,6 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/Categories.dart';
 import 'package:news_app/api_manager.dart';
+import 'package:news_app/category_model.dart';
+import 'package:news_app/drawer_tab.dart';
 import 'package:news_app/tab_bar.dart';
 import 'package:news_app/tab_item.dart';
 
@@ -28,7 +31,9 @@ class _HomeScreenState extends State<HomeScreen> {
           )),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        drawer: Drawer(),
+        drawer: DrawerTab(
+onClick: onDrawerClick,
+        ),
         appBar: AppBar(
           backgroundColor: Colors.green,
           title: Text(
@@ -59,9 +64,33 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           ],
         ),
-        body: CategoryTab(),
+        body: selectedCategory == null
+            ? CategoryTab(
+                onClick: onCategorySelect,
+              )
+            : TabBarWidget(id: selectedCategory!.id),
         // body: TabBarWidget(),
       ),
     );
+  }
+
+  CategoryModel? selectedCategory = null;
+
+  onDrawerClick(id) {
+    if(id == DrawerTab.CATEGORY_ID){
+      selectedCategory = null;
+      Navigator.pop(context);
+    }else if (id == DrawerTab.SETTINGS_ID){
+
+    }
+    setState(() {
+
+    });
+  }
+
+
+  onCategorySelect(cat) {
+    selectedCategory = cat;
+    setState(() {});
   }
 }

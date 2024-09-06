@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app/NewsData.dart';
 
@@ -18,16 +19,21 @@ class NewsItem extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  topRight: Radius.circular(12),
-                ),
-                child: Image.network(
-                  articles.urlToImage ?? "",
-                  fit: BoxFit.cover,
-                ),
+              CachedNetworkImage(
+                imageUrl: articles.urlToImage ?? "",
+                placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
+              // ClipRRect(
+              //   borderRadius: BorderRadius.only(
+              //     topLeft: Radius.circular(12),
+              //     topRight: Radius.circular(12),
+              //   ),
+              //   child: Image.network(
+              //     articles.urlToImage ?? "",
+              //     fit: BoxFit.cover,
+              //   ),
+              // ),
               SizedBox(
                 height: 3,
               ),
@@ -54,6 +60,7 @@ class NewsItem extends StatelessWidget {
               ),
               Text(
                 articles.description ?? "",
+                maxLines: 4,
                 style: TextStyle(
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
